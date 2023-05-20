@@ -8,7 +8,7 @@
     <div class="alert alert-danger" role="alert">Fix Errors!</div>
 @endif
 
-    <form method="post" action="/authors/put">
+    <form method="post" action="{{ $author->exists ? '/authors/patch/' . $author->id : '/authors/put' }}">
         @csrf
 
         <label for="author-name">Author name</label>
@@ -17,13 +17,14 @@
         type="text" 
         id="author-name" 
         name="name"
-        class="form-control @error('name') is-invalid @enderror">
+        class="form-control @error('name') is-invalid @enderror"
+        value="{{ old('name', $author->name) }}">
 
         @error('name')
-            <p>{{ $errors->first('name') }}</p>
+            <p class="invalid-feedback">{{ $errors->first('name') }}</p>
         @enderror
 
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary">{{ $author->exists ? 'Atjaunot' : 'Pievienot'}}</button>
 
     </form>
 

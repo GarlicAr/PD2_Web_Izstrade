@@ -2,6 +2,12 @@
 
 @section('content')
 
+@if (session('success'))
+    <div class="alert alert-success" role="alert" id="success-message">
+        {{ session('success') }}
+    </div>
+@endif
+
 
     @if (count($items) > 0)
 
@@ -18,7 +24,14 @@
                 <tr>
                     <td>{{ $author->id}}</td>
                     <td>{{ $author->name}}</td>
-                    <td>Labot / Dzest</td>
+                    <td>
+                        <a href="/authors/update/{{ $author->id }}" class="btn btn-outline-primary btn-sm" >Labot </a> 
+                        / 
+                        <form method="post" action="/authors/delete/{{$author->id}}" class="deletion-form d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Dzest</button>
+                        </form>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -31,5 +44,8 @@
     @endif
 
     <a href="/authors/create" class="btn btn-primary">Add Author</a>
+
+
+
 
 @endsection

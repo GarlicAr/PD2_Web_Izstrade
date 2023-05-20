@@ -25,7 +25,8 @@ class AuthorController extends Controller
         return view(
             'author.form',
             [
-                'title' => 'Add Author'
+                'title' => 'Add Author',
+                'author' => new Author(),
             ]
         );
     }
@@ -36,7 +37,46 @@ class AuthorController extends Controller
         $validatedDate = $request->validate([
             'name'=>'required',
         ]);
+
+        $author = new Author();
+        $author->name= $validatedDate['name'];
+        $author->save();
+
+        return redirect('/authors');
     }
+
+
+    public function update( Author $author){
+        return view(
+            'author.form',
+            [
+                'title'=>'Update Author',
+                'author' => $author,
+            ]
+        );
+    }
+
+    public function patch(Request $request, Author $author)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required',
+        ]);
+    
+        $author->name = $validatedData['name'];
+        $author->save();
+    
+        return redirect('/authors');
+    }
+
+    public function delete($author)
+{
+    $author = Author::findOrFail($author);
+    $authorName = $author->name;
+    $author->delete();
+
+    return redirect('/authors')->with('success', "{$authorName} deleted successfully");
+}
+    
 
 
 }
