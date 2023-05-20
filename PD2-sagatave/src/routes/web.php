@@ -15,6 +15,10 @@ use App\Http\Controllers\AuthorController;
 |
 */
 
-Route::get('/home', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/authors', [AuthorController::class, 'list']);
+
+Route::get('/authors/create', [AuthorController::class, 'create']);
+
+Route::post('/authors/put', [AuthorController::class, 'put']);

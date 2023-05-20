@@ -19,4 +19,24 @@ class AuthorController extends Controller
     );
 
     }
+
+    // display new authoor form
+    public function create(){
+        return view(
+            'author.form',
+            [
+                'title' => 'Add Author'
+            ]
+        );
+    }
+
+
+    public function put(Request $request){
+        //
+        $validatedDate = $request->validate([
+            'name'=>'required',
+        ]);
+    }
+
+
 }
