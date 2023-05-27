@@ -2,6 +2,10 @@
 
 @section('content')
 
+
+    <h1>{{$title}}</h1>
+    <hr>
+
 @if (session('success'))
     <div class="alert alert-success" role="alert" id="success-message">
         {{ session('success') }}
