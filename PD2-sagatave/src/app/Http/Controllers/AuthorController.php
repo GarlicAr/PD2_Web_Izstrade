@@ -41,12 +41,12 @@ class AuthorController extends Controller
 
     public function put(Request $request){
         //
-        $validatedDate = $request->validate([
+        $validatedData = $request->validate([
             'name'=>'required',
         ]);
 
         $author = new Author();
-        $author->name= $validatedDate['name'];
+        $author->name= $validatedData['name'];
         $author->save();
 
         return redirect('/authors');
