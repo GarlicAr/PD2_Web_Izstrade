@@ -24,6 +24,7 @@
                     <td>Gads</td>
                     <td>Cena</td>
                     <td>Vai ir publicets?</td>
+                    <td>Bilde</td>
                     <td>Darbibas</td>
                 </tr>
             </thead>
@@ -36,6 +37,7 @@
                     <td>{{ $book->year}}</td>
                     <td>&euro; {{ number_format($book->price,2, '.') }} </td>
                     <td>{!! $book->display ? '&#10004;&#65039;' : '&#10060;' !!}</td>
+                    <td>{{$book->image}}</td>
                     <td>
                         <a href="/books/update/{{ $book->id }}" class="btn btn-outline-primary btn-sm" >Labot </a> 
                         / 
