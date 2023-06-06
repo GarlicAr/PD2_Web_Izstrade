@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('price', 8, 2)->nullable();
             $table->integer('year');
+            $table->foreignId('genre_id');
             $table->string('image',256)->nullable();
             $table->boolean('display');
 

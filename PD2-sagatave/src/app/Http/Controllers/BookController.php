@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\Author;
+use App\Models\Genre;
 
 class BookController extends Controller
 {
@@ -32,6 +34,7 @@ class BookController extends Controller
      public function create(){
 
         $authors= Author::orderBy('name','asc')->get();
+        $genres = Genre::orderBy('name', 'asc')->get();
 
         return view(
             'book.form',
@@ -39,6 +42,7 @@ class BookController extends Controller
                 'title' => 'Pievienot gramatu',
                 'book' => new Book(),
                 'authors' => $authors,
+                'genres' => $genres,
             ]
         );
     }
@@ -52,6 +56,7 @@ class BookController extends Controller
                'description' => 'nullable',
                'price' => 'nullable|numeric',
                'year' => 'numeric',
+               'genre_id' => 'required',
                'image' => 'nullable|image',
                'display' => 'nullable'
            ]);
@@ -62,17 +67,21 @@ class BookController extends Controller
            $book->description = $validatedData['description'];
            $book->price = $validatedData['price'];
            $book->year = $validatedData['year'];
+           $book->genre_id = $validatedData['genre_id'];
            $book->display = (bool) ($validatedData['display'] ?? false);
+
            if ($request->hasFile('image')) {
-                $uploadedFile = $request->file('image');
-                $extension = $uploadedFile->clientExtension();
-                $name = uniqid();
-                $book->image = $uploadedFile->storePubliclyAs(
-                '/',
-                $name . '.' . $extension,
-                'uploads'
+            $uploadedFile = $request->file('image');
+            $extension = $uploadedFile->clientExtension();
+            $name = uniqid();
+            $book->image = $uploadedFile->storePubliclyAs(
+            '/',
+            $name . '.' . $extension,
+            'uploads'
             );
            }
+           
+        
            
            $book->save();
    
@@ -80,16 +89,18 @@ class BookController extends Controller
        }
  
 
-    public function update( Book $book, Author $author){
-        return view(
-            'book.form',
-            [
-                'title'=>'Update book',
-                'book' => $book,
-                'author' => $author,
-            ]
-        );
-    }
+       public function update(Book $book)
+       {
+           $authors = Author::orderBy('name', 'asc')->get();
+           $genres = Genre::orderBy('name', 'asc')->get();
+       
+           return view('book.form', [
+               'title' => 'Update book',
+               'book' => $book,
+               'authors' => $authors,
+               'genres' => $genres,
+           ]);
+       }
 
     public function patch(Request $request, Book $book)
     {
@@ -103,12 +114,13 @@ class BookController extends Controller
         return redirect('/books');
     }
 
-    public function delete($book)
+public function delete($bookId)
 {
-    $book = Author::findOrFail($book);
+    $book = Book::findOrFail($bookId);
     $bookName = $book->name;
     $book->delete();
 
     return redirect('/books')->with('success', "{$bookName} deleted successfully");
 }
+
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\GenreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,18 @@ Route::post('/books/put', [BookController::class, 'put']);
 Route::get('/books/update/{book}', [BookController::class, 'update']);
 Route::post('/books/patch/{book}', [BookController::class, 'patch']);
 Route::post('/books/delete/{book}', [BookController::class, 'delete']);
+
+//Genres
+
+Route::get('/genres', [GenreController::class, 'list']);
+Route::get('/genres/create', [GenreController::class, 'create']);
+Route::post('/genres/put', [GenreController::class, 'put']);
+Route::post('/genres/delete/{genre}', [GenreController::class, 'delete']);
+Route::post('/genres/patch/{genre}', [GenreController::class, 'patch']);
+Route::get('/genres/update/{genre}', [GenreController::class, 'update']);
+
+
+
 
 // Auth routes
 Route::get('/login', [AuthController::class, 'login'])->name('login');

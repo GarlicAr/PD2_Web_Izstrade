@@ -89,6 +89,24 @@
         </div>
 
         <div class="mb-3">
+    <label for="book-genre" class="form-label">Genre</label>
+    <select id="book-genre" name="genre_id" class="form-select @error('genre_id') is-invalid @enderror">
+        <option value="">Norādiet žanru</option>
+        @foreach($genres as $genre)
+            <option value="{{ $genre->id }}"
+                    @if ($genre->id == old('genre_id', $book->genre_id)) selected @endif>
+                {{ $genre->name }}
+            </option>
+        @endforeach
+    </select>
+    @error('genre_id')
+        <p class="invalid-feedback">{{ $message }}</p>
+    @enderror
+</div>
+
+
+
+        <div class="mb-3">
             <label for="book-price" class="form-label">Cena</label>
 
             <input
@@ -106,23 +124,25 @@
 
         <div class="mb-3">
             <label for="book-image" class="form-label">Attēls</label>
-             @if ($book->image)
-                <img
+                @if ($book->image)
+                    <img
                     src="{{ asset('images/' . $book->image) }}"
                     class="img-fluid img-thumbnail d-block mb-2"
                     alt="{{ $book->name }}"
-                >
-            @endif
-                <input
+                    >
+                @endif
+                    <input
                     type="file" accept="image/png, image/jpeg"
                     id="book-image"
                     name="image"
                     class="form-control @error('image') is-invalid @enderror"
-                >
-            @error('image')
-                <p class="invalid-feedback">{{ $errors->first('image') }}</p>
-            @enderror
-</div>
+                    >
+                @error('image')
+                    <p class="invalid-feedback">{{ $errors->first('image') }}</p>
+                @enderror
+        </div>
+
+
 
         //
 
